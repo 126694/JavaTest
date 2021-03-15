@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.Scanner;
+
+/**
+ * @author workholic Yin
+ * @create 2021-03-14 13:22
+ */
+public class Test {
+    public static void main(String[] args) {
+        System.out.println("请输入你要加密的东西所在的文件夹");
+        Scanner s1=new Scanner(System.in);
+        String m1=s1.nextLine();
+        System.out.println("请输入你要放在的文件夹");
+        Scanner s2=new Scanner(System.in);
+        String m2=s2.nextLine();
+        System.out.println("请输入你要加密的格式");
+        Scanner s3=new Scanner(System.in);
+        String m3="." +s3.nextLine();
+        File file1=new File(m1);
+        File[] f1=file1.listFiles();
+        int i=1;
+        File f3=null;
+        for(File f2:f1){
+            f3=new File(m2,"" + i + m3);
+            serelct(f2,f3);
+            f2.delete();
+            i++;
+        }
+
+
+    }
+    //图片加密静态方法
+      public static void serelct(File x1,File x2){
+        BufferedInputStream b1=null;
+        BufferedOutputStream b2=null;
+        try {
+            b1=new BufferedInputStream(new FileInputStream(x1));
+            b2=new BufferedOutputStream(new FileOutputStream(x2));
+            byte[] buffer=new byte[20];
+            int b;
+            while((b=b1.read(buffer))!=-1){
+                for(int i=0;i<b;i++){
+                    buffer[i]=(byte)(buffer[i] ^ 5);
+                }
+                b2.write(buffer,0,b);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                if(b1!=null) b1.close();
+                if(b2!=null) b2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+}
